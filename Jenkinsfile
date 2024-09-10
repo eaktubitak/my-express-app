@@ -10,6 +10,20 @@ pipeline{
                 sh "ls"
             }
         }
+        /*
+        stage('Build') {
+            steps {
+                // TypeScript dosyalarını derler
+                sh 'npm run build'
+            }
+        }
+        */
+        stage('Test') {
+            steps {
+                // Testleri çalıştırır
+                sh 'npm test'
+            }
+        }
     }
 
     post {
