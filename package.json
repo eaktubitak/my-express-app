@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -12,7 +12,7 @@
     "express": "^4.19.2"
   },
   "devDependencies": {
-    "mocha": "^10.7.3",
+    "jest": "^29.0.0",
     "supertest": "^7.0.0"
   }
 }

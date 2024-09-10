@@ -6,9 +6,11 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-// Sunucu başlatma
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server is up and running on port ${PORT}`));
+// Sunucuyu başlatma işlemi (Geliştirme sırasında kullanılabilir)
+if (require.main === module) {
+  const PORT = 5000;
+  app.listen(PORT, () => console.log(`Server is up and running on port ${PORT}`));
+}
 
-// app nesnesini export et
+// app nesnesini dışa aktar
 module.exports = app;
