@@ -1,6 +1,6 @@
 const request = require('supertest');
 const express = require('express');
-const { expect } = require('chai');
+const assert = require('assert');
 const app = require('../index'); // Ana uygulama dosyasını CommonJS ile import edin
 
 describe('GET /', function() {
