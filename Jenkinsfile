@@ -4,13 +4,6 @@ pipeline{
     }
 
     stages{
-        stage('Prepare Workspace') {
-            steps {
-                script {
-                    deleteDir() // Workspace'i temizler
-                }
-            }
-        }
         stage("Welcome"){
             steps{
                 sh "pwd"
@@ -18,4 +11,14 @@ pipeline{
             }
         }
     }
+
+    post {
+        always {
+            script {
+                // Pipeline tamamlandığında workspace'i temizler
+                deleteDir() 
+            }
+        }
+    }
+
 }
