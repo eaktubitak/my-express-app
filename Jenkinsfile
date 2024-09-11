@@ -24,6 +24,18 @@ pipeline{
                 sh 'npm test'
             }
         }
+        stage('Build') {
+            steps {
+                script {
+                    def versionFile = '/var/jenkins_home/version.txt'
+                    def version = readFile(versionFile).trim().toInteger()
+
+                    // Docker imajını build eder ve versiyonu artırır
+                    sh "docker build -t my-express-app:${version} ."
+                    writeFile file: versionFile, text: "${version + 1}"
+                }
+            }
+        }        
     }
 
     post {
