@@ -38,9 +38,9 @@ pipeline{
                 script {
                     def version
                     def imageName = "eaydinkurubacak/my-express-app"
+                    def versionFile = '/var/jenkins_home/version.txt'
 
                     node('built-in') {
-                        def versionFile = '/var/jenkins_home/version.txt'
                         version = readFile(versionFile).trim().toInteger()
                     }
 
@@ -63,6 +63,7 @@ pipeline{
                 }
             }
         }
+
     }
 
     post {
