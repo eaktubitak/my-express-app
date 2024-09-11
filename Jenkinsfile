@@ -24,18 +24,22 @@ pipeline{
                 sh 'npm test'
             }
         }
-        stage('Build') {
+        stage('Build Docker Image && Update Version') {
             steps {
                 script {
-                    def versionFile = '/var/jenkins_home/version.txt'
-                    def version = readFile(versionFile).trim().toInteger()
-
-                    // Docker imajını build eder ve versiyonu artırır
+                    def version 
+                    // Jenkins'in "built-in" node'unda version.txt dosyasını okuma ve yazma işlemleri
+                    node('built-in') {
+                        def versionFile = '/var/jenkins_home/version.txt'
+                        version = readFile(versionFile).trim().toInteger()
+                        // Versiyon bilgisini artırma
+                        writeFile file: versionFile, text: "${version + 1}"
+                    }
+                    // Docker build işlemini 'docker-agent' üzerinde gerçekleştirme
                     sh "docker build -t my-express-app:${version} ."
-                    writeFile file: versionFile, text: "${version + 1}"
                 }
             }
-        }        
+        }       
     }
 
     post {
