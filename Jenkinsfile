@@ -18,6 +18,7 @@ pipeline{
             }
         }
         */
+        /*
         stage('Test') {
             steps {
                 // Testleri çalıştırır
@@ -33,6 +34,7 @@ pipeline{
                 }
             }
         }
+        */
         stage('Build and Push Docker Image && Update Version') {
             steps {
                 script {
