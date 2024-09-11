@@ -36,24 +36,33 @@ pipeline{
         stage('Build and Push Docker Image && Update Version') {
             steps {
                 script {
-                    def version 
-                    // Jenkins'in "built-in" node'unda version.txt dosyasını okuma ve yazma işlemleri
+                    def version
+                    def imageName = "eaydinkurubacak/my-express-app"
+
                     node('built-in') {
                         def versionFile = '/var/jenkins_home/version.txt'
                         version = readFile(versionFile).trim().toInteger()
-                        // Versiyon bilgisini artırma
-                        writeFile file: versionFile, text: "${version + 1}"
                     }
-                    // Docker build işlemini 'docker-agent' üzerinde gerçekleştirme
-                    sh "docker build -t my-express-app:${version} ."
-                    sh "docker tag my-express-app:${version} eaydinkurubacak/my-express-app:latest"
 
-                    // Docker push
-                    sh "docker push eaydinkurubacak/my-express-app:${version}"
-                    sh "docker push eaydinkurubacak/my-express-app:latest"
+                    // Docker build işlemi
+                    sh "docker build -t ${imageName}:${version} ."
+                    sh "docker tag ${imageName}:${version} ${imageName}:latest"
+
+                    try {
+                        // Docker push işlemi
+                        sh "docker push ${imageName}:${version}"
+                        sh "docker push ${imageName}:latest"
+
+                        // Push işlemleri başarılı olursa versiyonu artır
+                        node('built-in') {
+                            writeFile file: versionFile, text: "${version + 1}"
+                        }
+                    } catch (Exception e) {
+                        println "Docker push failed: ${e.message}"
+                    }
                 }
             }
-        }       
+        }
     }
 
     post {
