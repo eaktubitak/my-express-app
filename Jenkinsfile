@@ -24,6 +24,15 @@ pipeline{
                 sh 'npm test'
             }
         }
+        stage('Dockerhub Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    }
+                }
+            }
+        }
         stage('Build and Push Docker Image && Update Version') {
             steps {
                 script {
