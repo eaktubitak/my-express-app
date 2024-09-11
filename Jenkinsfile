@@ -63,7 +63,30 @@ pipeline{
                 }
             }
         }
+        stage('Deploy') {
+            steps {
+                script {
+                    def imageName = "eaydinkurubacak/my-express-app:latest"
+                    def containerName = "my-express-app-container"
 
+                    // Docker Hub'dan latest tag'li imajı pull et
+                    sh "docker pull ${imageName}"
+
+                    // Var olan bir container varsa onu durdur ve sil
+                    sh """
+                        if [ \$(docker ps -aq -f name=${containerName}) ]; then
+                            docker stop ${containerName}
+                            docker rm ${containerName}
+                        fi
+                    """
+
+                    // Yeni bir container başlat
+                    sh """
+                        docker container run -d -p 80:5000 --name ${containerName} ${imageName} 
+                    """
+                }
+            }
+        }
     }
 
     post {
