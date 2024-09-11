@@ -24,7 +24,7 @@ pipeline{
                 sh 'npm test'
             }
         }
-        stage('Build Docker Image && Update Version') {
+        stage('Build and Push Docker Image && Update Version') {
             steps {
                 script {
                     def version 
@@ -37,6 +37,11 @@ pipeline{
                     }
                     // Docker build işlemini 'docker-agent' üzerinde gerçekleştirme
                     sh "docker build -t my-express-app:${version} ."
+                    sh "docker tag my-express-app:${version} eaydinkurubacak/my-express-app:latest"
+
+                    // Docker push
+                    sh "docker push eaydinkurubacak/my-express-app:${version}"
+                    sh "docker push eaydinkurubacak/my-express-app:latest"
                 }
             }
         }       
