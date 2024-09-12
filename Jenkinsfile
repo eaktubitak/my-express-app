@@ -76,7 +76,7 @@ pipeline{
 
                     // Var olan bir container varsa onu durdur ve sil
                     sh """
-                        if [ \$(docker ps -aq -f name=${containerName}) ]; then
+                        if [ \$(docker ps -aq -f name=^${containerName}$) ]; then
                             docker stop ${containerName}
                             docker rm ${containerName}
                         fi
