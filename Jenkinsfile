@@ -25,6 +25,7 @@ pipeline{
                 sh 'npm test'
             }
         }
+        */
         stage('Dockerhub Login') {
             steps {
                 script {
@@ -34,7 +35,6 @@ pipeline{
                 }
             }
         }
-        */
         stage('Build and Push Docker Image && Update Version') {
             steps {
                 script {
