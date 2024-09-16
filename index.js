@@ -3,7 +3,7 @@ const app = express();
 
 // Route tanımı
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello World! Here is the updated one!');
 });
 
 // Sunucuyu başlatma işlemi (Geliştirme sırasında kullanılabilir)
